@@ -54,13 +54,13 @@ const handleSubmit = async (e) => {
     // const session = await getSession()
     switch (session.user.role) {
       case "ADMIN":
-        router.push("/admin-dashboard")
+        router.push("/admin")
         break
       case "INSTRUCTOR":
-        router.push("/instructor-dashboard")
+        router.push("/instructor")
         break
       case "LEARNER":
-        router.push("/learner-dashboard")
+        router.push("/learner")
         break
       default:
         router.push("/")

@@ -26,8 +26,79 @@ model User {
   expertise     String?
   bio          String?
   // Relations can be added here (courses, etc.)
+  
 }
 
+// learning manangement 
+model Course {
+  id          String      @id @default(uuid())
+  title       String
+  description String
+  category    CourseCategory
+  price       Int         @default(0)
+  status      CourseStatus @default(DRAFT)
+  language    String[]
+  difficulty  CourseDifficulty
+  hasAITutor  Boolean     @default(false)
+  enrolledStudents Int    @default(0)
+  completionRate   Float  @default(0)
+  teacherId   String
+  teacherName String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  sections    Section[]
+}
+
+model Section {
+  id        String    @id @default(uuid())
+  title     String
+  order     Int
+  courseId  String
+  course    Course    @relation(fields: [courseId], references: [id])
+  chapters  Chapter[]
+}
+
+model Chapter {
+  id        String    @id @default(uuid())
+  title     String
+  content   String
+  order     Int
+  type      ChapterType
+  duration  Int
+  sectionId String
+  section   Section   @relation(fields: [sectionId], references: [id])
+}
+
+enum CourseCategory {
+  QUANTUM
+  PCB
+  AI
+  IOT
+  BLOCKCHAIN
+  CYBERSECURITY
+  RENEWABLE_ENERGY
+  BIOTECHNOLOGY
+  VR_AR
+}
+
+enum CourseStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum CourseDifficulty {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+enum ChapterType {
+  VIDEO
+  TEXT
+  QUIZ
+  LAB
+}
 enum Role {
   ADMIN
   INSTRUCTOR
